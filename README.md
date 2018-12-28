@@ -11,14 +11,14 @@ What you need before you start:
 
 
 From a IBM i menu prompt start the SSH deamon:`===> STRTCPSVR *SSHD`
-Or start ssh from win/mac/linux
+Then start ssh from win/mac/linux
 
 ```
 mkdir /prj
 cd /prj 
-git -c http.sslVerify=false clone --recurse-submodules https://github.com/sitemule/ILEfcgi.git
-cd ILEfcgi
-make 
+git -c http.sslVerify=false clone https://github.com/sitemule/ILEfastCGI.git
+cd ILEfastCGI
+gmake 
 ```
 Now you have library ILEFCGI on your IBM i - and you are good to go. You can simply copy the serivce program
 to you own projects libraries along with the binding directory and header files.
