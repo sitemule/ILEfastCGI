@@ -2082,6 +2082,26 @@ int FCGX_InitRequest(FCGX_Request *request, int sock, int flags)
  *
  *----------------------------------------------------------------------
  */
+int listenSock = FCGI_LISTENSOCK_FILENO;
+
+void FCGX_setSock(int sock )
+{
+    listenSock = sock;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * FCGX_Init --
+ *
+ *      Initilize the FCGX library.  This is called by FCGX_Accept()
+ *      but must be called by the user when using FCGX_Accept_r().
+ *
+ * Results:
+ *	    0 for successful call.
+ *
+ *----------------------------------------------------------------------
+ */
 int FCGX_Init(void)
 {
     char *p;
@@ -2090,7 +2110,7 @@ int FCGX_Init(void)
         return 0;
     }
 
-    FCGX_InitRequest(&the_request, FCGI_LISTENSOCK_FILENO, 0);
+    FCGX_InitRequest(&the_request, listenSock, 0);
 
     if (OS_LibInit(NULL) == -1) {
         return OS_Errno ? OS_Errno : -9997;
@@ -2187,6 +2207,7 @@ int FCGX_Accept_r(FCGX_Request *reqDataPtr)
 {
     if (!libInitialized) {
         return -9998;
+        
     }
 
     /* Finish the current request, if any. */

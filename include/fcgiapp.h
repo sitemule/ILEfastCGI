@@ -142,6 +142,9 @@ DLLAPI int FCGX_IsCGI(void);
  */
 DLLAPI int FCGX_Init(void);
 
+void FCGX_setSock(int sock );
+
+
 /*
  *----------------------------------------------------------------------
  *
