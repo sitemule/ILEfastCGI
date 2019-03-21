@@ -26,7 +26,7 @@ CCFLAGS=OPTION(*STDLOGMSG) OUTPUT(*NONE) OPTIMIZE(10) ENUM(*INT) TERASPACE(*YES)
 
 # Dependency list
 
-all: clean $(BIN_LIB).lib ilefastcgi.srvpgm 
+all: $(BIN_LIB).lib ilefastcgi.srvpgm 
 
 ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
 
@@ -34,14 +34,14 @@ ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
 #-----------------------------------------------------------
 
 %.lib:
-	-system -qi "CRTLIB $* TYPE(*TEST)"
+	-system -q "CRTLIB $* TYPE(*TEST)"
 
 %.entry:
 	# Basically do nothing..
 	@echo "Adding binding entry $*"
 
 %.c:
-	system -i "CHGATR OBJ('src/$*.c') ATR(*CCSID) VALUE(1252)"
+	system -q "CHGATR OBJ('src/$*.c') ATR(*CCSID) VALUE(1252)"
 	system "CRTCMOD MODULE($(BIN_LIB)/$(notdir $*)) SRCSTMF('src/$*.c') $(CCFLAGS)"
 
 
@@ -50,18 +50,17 @@ ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
 	# You may be wondering what this ugly string is. It's a list of objects created from the dep list that end with .c or .clle.
 	$(eval modules := $(patsubst %,$(BIN_LIB)/%,$(basename $(filter %.c ,$(notdir $^)))))
 	
-	system -i -kpieb "CRTSRVPGM SRVPGM($(BIN_LIB)/$*) MODULE($(modules)) EXPORT(*ALL) ACTGRP(QILE) ALWLIBUPD(*YES) TGTRLS(*current)"
+	system -q -kpieb "CRTSRVPGM SRVPGM($(BIN_LIB)/$*) MODULE($(modules)) EXPORT(*ALL) ACTGRP(QILE) ALWLIBUPD(*YES) TGTRLS(*current)"
 
 
 all:
 	@echo Build success!
 
 clean:
-	-system -qi "CLRLIB LIB($(BIN_LIB))"
+	-system -q "CLRLIB LIB($(BIN_LIB))"
 	
 
 # For vsCode / single file then i.e.: gmake current sqlio.c  
 current: 
-	system -i "CRTCMOD MODULE($(BIN_LIB)/$(SRC)) SRCSTMF('src/$(SRC).c') $(CCFLAGS2) "
-
+	system -q "CRTCMOD MODULE($(BIN_LIB)/$(SRC)) SRCSTMF('src/$(SRC).c') $(CCFLAGS2) "
 
