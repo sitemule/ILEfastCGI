@@ -23,3 +23,9 @@ gmake
 Now you have library ILEFCGI on your IBM i - and you are good to go. You can simply copy the serivce program
 to you own projects libraries along with the binding directory and header files.
 
+For an example how the ILEfastCGI can be used, please look in ILEastic project where one option 
+is to use fastCGI for connectio to Apache or Nginx
+
+https://github.com/sitemule/ILEastic/blob/master/examples/Fastcgi01.rpgle
+
+
