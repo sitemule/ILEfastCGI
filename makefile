@@ -11,14 +11,16 @@
 BIN_LIB=ILEFASTCGI
 DBGVIEW=*ALL
 TARGET_CCSID=*JOB
+TARGET_RLS=V7R2M0
+
 
 # Do not touch below
 INCLUDE='/QIBM/include' 'include/' 
 
-CCFLAGSOK=OPTIMIZE(10) ENUM(*INT) TERASPACE(*YES) STGMDL(*INHERIT) SYSIFCOPT(*IFSIO) INCDIR($(INCLUDE)) DBGVIEW($(DBGVIEW)) TGTCCSID($(TARGET_CCSID))
+CCFLAGSOK=OPTIMIZE(10) ENUM(*INT) TERASPACE(*YES) TGTRLS($(TARGET_RLS)) STGMDL(*INHERIT) SYSIFCOPT(*IFSIO) INCDIR($(INCLUDE)) DBGVIEW($(DBGVIEW)) TGTCCSID($(TARGET_CCSID))
 
 # For current compile:
-CCFLAGS=OPTION(*STDLOGMSG) OUTPUT(*NONE) OPTIMIZE(10) ENUM(*INT) TERASPACE(*YES) STGMDL(*INHERIT) SYSIFCOPT(*IFSIO) DBGVIEW(*ALL) INCDIR($(INCLUDE)) 
+CCFLAGS=OPTION(*STDLOGMSG) OUTPUT(*NONE) OPTIMIZE(10) ENUM(*INT) TERASPACE(*YES) TGTRLS($(TARGET_RLS)) STGMDL(*INHERIT) SYSIFCOPT(*IFSIO) DBGVIEW(*ALL) INCDIR($(INCLUDE)) 
 
 #
 # User-defined part end
@@ -50,7 +52,7 @@ ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
 	# You may be wondering what this ugly string is. It's a list of objects created from the dep list that end with .c or .clle.
 	$(eval modules := $(patsubst %,$(BIN_LIB)/%,$(basename $(filter %.c ,$(notdir $^)))))
 	
-	system -q -kpieb "CRTSRVPGM SRVPGM($(BIN_LIB)/$*) MODULE($(modules)) EXPORT(*ALL) ACTGRP(QILE) ALWLIBUPD(*YES) TGTRLS(*current)"
+	system -q -kpieb "CRTSRVPGM SRVPGM($(BIN_LIB)/$*) MODULE($(modules)) EXPORT(*ALL) ACTGRP(QILE) ALWLIBUPD(*YES) TGTRLS($(TARGET_RLS))"
 
 
 all:
