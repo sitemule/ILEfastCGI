@@ -54,6 +54,10 @@ ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
 	
 	system -q -kpieb "CRTSRVPGM SRVPGM($(BIN_LIB)/$*) MODULE($(modules)) EXPORT(*ALL) ACTGRP(QILE) ALWLIBUPD(*YES) TGTRLS($(TARGET_RLS))"
 
+	@for module in $(modules); do\
+		system -q "dltmod $$module" ; \
+	done
+
 
 all:
 	@echo Build success!
