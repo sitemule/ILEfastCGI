@@ -28,9 +28,9 @@ CCFLAGS=OPTION(*STDLOGMSG) OUTPUT(*NONE) OPTIMIZE(10) ENUM(*INT) TERASPACE(*YES)
 
 # Dependency list
 
-all: $(BIN_LIB).lib ilefastcgi.srvpgm 
+all: $(BIN_LIB).lib githash ilefastcgi.srvpgm 
 
-ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
+ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c githash.c os_unix.c
 
 
 #-----------------------------------------------------------
@@ -41,6 +41,13 @@ ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c os_unix.c
 %.entry:
 	# Basically do nothing..
 	@echo "Adding binding entry $*"
+
+# get the git hash and put it into the version file so it becomes part of the copyright notice in the service program
+githash:	
+	-$(eval gitshort := $(shell git rev-parse --short HEAD))
+	-$(eval githash := $(shell git rev-parse --verify HEAD))
+	-echo "#pragma comment(copyright,\"System & Method A/S - Sitemule: git checkout $(gitshort) (hash: $(githash) )\")" > src/githash.c 
+
 
 %.c:
 	system -q "CHGATR OBJ('src/$*.c') ATR(*CCSID) VALUE(1252)"
