@@ -46,6 +46,8 @@ ilefastcgi.srvpgm: fcgiapp.c fcgi_stdio.c githash.c os_unix.c
 githash:	
 	-$(eval gitshort := $(shell git rev-parse --short HEAD))
 	-$(eval githash := $(shell git rev-parse --verify HEAD))
+	-touch src/githash.c 
+	-setccsid 1252 src/githash.c
 	-echo "#pragma comment(copyright,\"System & Method A/S - Sitemule: git checkout $(gitshort) (hash: $(githash) )\")" > src/githash.c 
 
 
