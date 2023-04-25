@@ -1,6 +1,6 @@
 .vscode/sftp.json
 .fuse*
+**/githash.c
 mmap*
 examples/errorlist.txt
-**/githash.c
 **/node_modules
